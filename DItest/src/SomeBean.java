@@ -9,8 +9,16 @@ public interface SomeBean {
 
 }
 
-@Bean(singleton =false)
+//@Bean(singleton =false)
 class SomeBeanImp implements SomeBean{
 
+
 }
+
+@Bean(singleton =true)
+class SomeBeanImp2 implements SomeBean{
+    @InjectedBean
+    SomeBean s;
+}
+
 

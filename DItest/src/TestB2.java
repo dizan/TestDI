@@ -7,6 +7,6 @@
  */
 @Bean(singleton=false)
 public class TestB2 {
-    @InjectedBean
+  //  @InjectedBean
     String s;
 }

@@ -8,5 +8,5 @@
 @Bean(singleton=true)
 public class TestB {
     @InjectedBean
-    TestB2 s;
+    SomeBean s;
 }
