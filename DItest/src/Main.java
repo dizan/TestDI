@@ -5,6 +5,7 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -18,6 +19,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
         BeanFactory beanFactory=BeanFactory.create();
         TestB testB=beanFactory.lookup(TestB.class);
+
+      //  TestB testB2=beanFactory.lookup(TestB.class);
+
      /*   Reflections reflections = new Reflections("");
         Set<String> subTypes = reflections.getStore().getSubTypesOf(SomeBean.class.getName());
 

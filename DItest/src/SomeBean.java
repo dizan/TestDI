@@ -17,8 +17,14 @@ class SomeBeanImp implements SomeBean{
 
 @Bean(singleton =true)
 class SomeBeanImp2 implements SomeBean{
+    SomeBeanImp2(){
+        System.out.println("created impl "+this.getClass());
+    }
     @InjectedBean
-    SomeBean s;
+    TestB2 s;
+
+//    @InjectedBean
+//    TestB2 s2;
 }
 
 

@@ -15,35 +15,41 @@ import java.util.Set;
  */
 public class BeanFactory {
     private  ArrayList<String> usedClasses=new ArrayList<String>();
+    private ArrayList<Object> singletonList=new ArrayList<Object>();
+    private Object currentObject;
+    boolean firstUsage=true;
     private BeanFactory(){}
 
+    /**
+     * <p>Creates new instance of Factory</p>
+     *
+     * @return instance of BeanFactory
+     */
     public static BeanFactory create() {
         return new BeanFactory();
     }
 
-    //without checking @Bean yet
+    /**
+     * <p>This finds all the injectable classes in the classpath whitch
+     * are assignable to "Class<T> c"; Hand the case when there is none
+     * or more than one.</p>
+     *
+     * @return object with type <T>, that has all dependency injections
+     */
     public  <T> T lookup(Class<T> c) throws Exception {
-        T returnedObject;
+        T returnedObject=null;
         String implementationName="";
 
-    // cheking singleton
+        //проверка на цикличную зависимость
+        checkCycleDependency(c);
 
-        if (usedClasses.contains(c.getName())){
-            System.out.println(c.getName());
-            throw new Exception("There are cycle dependency");
-
+        // проверка на первое использование для избежания создания двух экземпляров одного объекта
+        if(firstUsage){
+            returnedObject= createWithSingleton(c);//(T) c.newInstance();
+            firstUsage=false;
+        }else{
+            returnedObject=(T)currentObject;
         }
-        returnedObject= (T) c.newInstance();
-        usedClasses.add(c.getName());
-
-        Annotation annotation = c.getAnnotation(Bean.class);
-        if(annotation instanceof Bean){
-            Bean myAnnotation = (Bean) annotation;
-            System.out.println("singleton: " + myAnnotation.singleton());
-        } else{
-           return returnedObject;
-        }
-        //TODO: cheking @Bean and singleton
 
         // проверка на инжектируемое поле
         Field[] fields=c.getDeclaredFields();
@@ -51,24 +57,34 @@ public class BeanFactory {
             Annotation[] annotations = field.getDeclaredAnnotations();
             for(Annotation fAnnotation : annotations){
                 if(fAnnotation instanceof InjectedBean){
-                    System.out.println("Here is injected field");
+                    System.out.println("Here is injected field "+ field.getType()+" in class "+c.getName());
                     //если поле-интерфейс, то пробуем взять реализацию, иначе отдаём инстанс класса
                     if(field.getType().isInterface()){
                         implementationName=getImplementation(field.getType());
                         Class implClass=Class.forName(implementationName);
-                        field.set(returnedObject,implClass.newInstance());
+                        currentObject=createWithSingleton(implClass);//implClass.newInstance();
+                        field.set(returnedObject,currentObject);
                         lookup(implClass);
-                    } else{
-                        field.set(returnedObject,field.getType().newInstance());
+                    } else {
+                        currentObject=createWithSingleton(field.getType());//field.getType().newInstance();
+                        field.set(returnedObject,currentObject);
                         lookup(field.getType());
                     }
-
                 }
             }
         }
-
         return returnedObject;
     }
+
+    private void checkCycleDependency(Class c) throws Exception {
+        if (usedClasses.contains(c.getName())){
+            System.out.println(c.getName()+" used");
+            throw new Exception("There are cycle dependency");
+        }else{
+            usedClasses.add(c.getName());
+        }
+    }
+
 
     private String getImplementation(Class c) throws Exception {
         String returnedImpl="";
@@ -108,6 +124,39 @@ public class BeanFactory {
         }
         return false;
     }
+    // создаёт экземпляр с учётом параметра singleton
+    private  <T> T createWithSingleton(Class<T> c) throws Exception {
+         //TODO
+        Bean myAnnotation;
+        boolean isSingleton=false;
+        T objectForReturn;
+
+        // проверка на @Bean
+        Annotation annotation = c.getAnnotation(Bean.class);
+        if(annotation instanceof Bean){
+            myAnnotation = (Bean) annotation;
+            if(myAnnotation.singleton()) isSingleton=true;
+            System.out.println("singleton: " + myAnnotation.singleton());
+        }else{
+            throw new Exception(c.getName()+" hasn`t annotation @Bean");
+        }
+
+        if(isSingleton==false){
+            return c.newInstance();
+        }else{
+            for (Object o:singletonList){
+                if(o.getClass().equals(c)){
+                    return (T) o;
+                }
+            }
+            objectForReturn=c.newInstance();
+            singletonList.add(objectForReturn);
+            return  objectForReturn;
+
+        }
+
+    }
+
 
 }
 

@@ -7,6 +7,11 @@
  */
 @Bean(singleton=false)
 public class TestB2 {
-  //  @InjectedBean
-    String s;
+    TestB2(){
+        System.out.println("created "+this.getClass());
+    }
+//    @InjectedBean
+//    TestB s;
+
+
 }
