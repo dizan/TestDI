@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="unnamed">
-    <output-path>$PROJECT_DIR$/out/artifacts/unnamed</output-path>
-    <root id="archive" name="unnamed.jar">
-      <element id="module-output" name="DItest" />
-      <element id="library" level="project" name="org.reflections:reflections-maven:0.9.6" />
-    </root>
-  </artifact>
-</component>
