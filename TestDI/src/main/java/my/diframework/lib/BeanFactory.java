@@ -1,13 +1,11 @@
 package my.diframework.lib;
 
-import my.diframework.exceptions.CycleException;
-import my.diframework.exceptions.MultipleImplementationException;
-import my.diframework.exceptions.NoAnnotationException;
-import my.diframework.exceptions.NoImplementationException;
+import my.diframework.exceptions.*;
 import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -57,6 +55,7 @@ public class BeanFactory {
     public  <T> T lookup(Class<T> c) throws Exception {
         T returnedObject=null;
         String implementationName="";
+        int modifiers;
         //проверка на цикличную зависимость
         checkCycleDependency(c);
 
@@ -74,6 +73,16 @@ public class BeanFactory {
             Annotation[] annotations = field.getDeclaredAnnotations();
             for(Annotation fAnnotation : annotations){
                 if(fAnnotation instanceof InjectedBean){
+                    modifiers=field.getModifiers();
+
+                    if(Modifier.isStatic(modifiers)){
+                        throw new ModifierException("Static modifier");
+                    }
+
+                    if(Modifier.isFinal(modifiers)){
+                        throw new ModifierException("Final modifier");
+                    }
+
                     System.out.println("Here is injected field "+ field.getType()+" in class "+c.getName());
                     outerObject=c.getName();   // для выдачи эксепшн в случае цикличности
                     //если поле-интерфейс, то пробуем взять реализацию, иначе отдаём инстанс класса
