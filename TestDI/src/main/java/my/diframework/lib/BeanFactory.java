@@ -155,7 +155,8 @@ public class BeanFactory {
         Set<String> subTypes = reflections.getStore().getSubTypesOf(c.getName());
 
         if(subTypes.size()==0){
-            throw new NoImplementationException("There are no implementation of interface or abstract class "+c.getName());
+            throw new NoImplementationException("There are no implementation of interface or abstract class "+c.getName()+ "" +
+                    " or there are no annotation @Bean on this class");
         }
 
         if(subTypes.size()>=1){
@@ -166,8 +167,8 @@ public class BeanFactory {
                 }
             }
             if(beansCount==0){
-                throw new NoImplementationException("There are no implementation " +
-                        "of interface or abstract class "+c.getName());
+                throw new NoImplementationException("There are no implementation of interface or abstract class "+c.getName()+ "" +
+                        " or there are no annotation @Bean on this class");
             }
             if(beansCount==1){
                 return returnedImpl;
