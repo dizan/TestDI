@@ -1,12 +1,16 @@
 package my.diframework.exceptions;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Dizan
- * Date: 13.11.13
- * Time: 14:35
- * To change this template use File | Settings | File Templates.
+ * <p>NoImplementationException throws when there are no implementation of interface, marked @Bean.
+ * Dependency injection mechanism allows only one implementation of interface, marked Bean.
+ * This exception extends parent exception {@link DIFrameworkException}
+ * @see CycleException
+ * @see ModifierException
+ * @see MultipleImplementationException
+ * @see NoAnnotationException
+ * @see DIFrameworkException
  */
+
 public class NoImplementationException extends DIFrameworkException {
     public NoImplementationException(String s) {
         super(s);

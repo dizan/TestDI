@@ -1,11 +1,14 @@
 package my.diframework.exceptions;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Dizan
- * Date: 13.11.13
- * Time: 14:06
- * To change this template use File | Settings | File Templates.
+ * <p>NoAnnotationException throws when there are field, marked @InjectedBean,but class of this field isnt
+ * Bean class. Mechanish works only with classes marked @Bean.
+ * This exception extends parent exception {@link DIFrameworkException}
+ * @see CycleException
+ * @see DIFrameworkException
+ * @see MultipleImplementationException
+ * @see ModifierException
+ * @see NoImplementationException
  */
 public class NoAnnotationException extends DIFrameworkException {
     public NoAnnotationException(String s) {

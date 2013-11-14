@@ -1,12 +1,15 @@
 package my.diframework.exceptions;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Dizan
- * Date: 13.11.13
- * Time: 13:54
- * To change this template use File | Settings | File Templates.
+ * <p>CycleException throws when there are cycle dependency.
+ * this exception extends parent exception {@link DIFrameworkException}
+ * @see DIFrameworkException
+ * @see ModifierException
+ * @see MultipleImplementationException
+ * @see NoAnnotationException
+ * @see NoImplementationException
  */
+
 public class CycleException extends DIFrameworkException {
     public CycleException(String s) {
         super(s);

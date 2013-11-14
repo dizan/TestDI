@@ -1,11 +1,13 @@
 package my.diframework.exceptions;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Dizan
- * Date: 13.11.13
- * Time: 13:57
- * To change this template use File | Settings | File Templates.
+ * <p>The class DIFrameworkException is a parent Exception class
+ * for all exceptions that throws in this framework. Its a form of  {@link RuntimeException}
+ * @see CycleException
+ * @see ModifierException
+ * @see MultipleImplementationException
+ * @see NoAnnotationException
+ * @see NoImplementationException
  */
 public class DIFrameworkException extends RuntimeException {
 

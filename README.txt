@@ -1,7 +1,7 @@
-Для использования библиотеки необходимо 
-1) Собрать пакет jar c помощью команды maven package
-2) Подключить jar-библиотеку к проекту
-3) Пометить аннотацией @Bean(singleton=...) все классы, видимые механизму
-4) Пометить поля, в которые ожидается внедрение зависимости, аннотацией @InjectedBean
-5) Создать экземпляр BeanFactory bf=BeanFactory.create();
-6) Вызвать метод bf.lookup(SomeClass.class) для внедрения всех необходимых зависимостей
+To use the library, you must
+1) Assemble package jar c command maven package
+2) Connect the jar-library to the project
+3) Mark annotated with @ Bean (singleton = ...), all classes, visible mechanism
+4) Mark the field, which is expected to dependency injection, annotation @ InjectedBean
+5) Create an instance of BeanFactory bf = BeanFactory.create ();
+6) Call the bf.lookup (SomeClass.class) for the implementation of all the necessary dependencies

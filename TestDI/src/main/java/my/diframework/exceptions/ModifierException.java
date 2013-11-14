@@ -1,12 +1,15 @@
 package my.diframework.exceptions;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Dizan
- * Date: 13.11.13
- * Time: 17:41
- * To change this template use File | Settings | File Templates.
+ * <p>ModifierException throws when there are static or final fields, that cant processed by DI mechanism.
+ * This exception extends parent exception {@link DIFrameworkException}
+ * @see CycleException
+ * @see DIFrameworkException
+ * @see MultipleImplementationException
+ * @see NoAnnotationException
+ * @see NoImplementationException
  */
+
 public class ModifierException extends DIFrameworkException {
     public ModifierException(String s) {
         super(s);

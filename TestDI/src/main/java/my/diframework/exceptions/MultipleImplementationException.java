@@ -1,12 +1,16 @@
 package my.diframework.exceptions;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Dizan
- * Date: 13.11.13
- * Time: 14:02
- * To change this template use File | Settings | File Templates.
+ * <p>MultipleImplementationException throws when there are more tha one implementation of interface.
+ * Dependency injection mechanism allows only one implementation of interface, marked Bean
+ * This exception extends parent exception {@link DIFrameworkException}
+ * @see CycleException
+ * @see DIFrameworkException
+ * @see MultipleImplementationException
+ * @see NoAnnotationException
+ * @see NoImplementationException
  */
+
 public class MultipleImplementationException extends DIFrameworkException {
     public MultipleImplementationException(String s) {
         super(s);
